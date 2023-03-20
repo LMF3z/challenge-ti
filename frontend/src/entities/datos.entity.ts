@@ -10,6 +10,7 @@ export interface DatosI {
   stock: number;
   rating: number;
   cities: string;
+  observaciones: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;

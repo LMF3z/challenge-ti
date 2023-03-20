@@ -144,6 +144,9 @@ const TableData = () => {
                   <th className='p-3 text-sm font-semibold tracking-wide text-left'>
                     cities
                   </th>
+                  <th className='p-3 text-sm font-semibold tracking-wide text-left'>
+                    Observaciones
+                  </th>
                   {isAuth?.role.toLowerCase() ===
                     UserRole.admin.toLowerCase() && (
                     <th className='p-3 text-sm font-semibold tracking-wide text-left'>
@@ -200,6 +203,9 @@ const TableData = () => {
                             <span key={index}>{c} </span>
                           )
                         )}
+                    </td>
+                    <td className='p-3 text-sm text-gray-700 white-space-nowrap'>
+                      {data?.observaciones}
                     </td>
 
                     {isAuth?.role.toLowerCase() ===

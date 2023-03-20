@@ -26,6 +26,7 @@ const ModalFormCreateData = ({ toggleCloseModal }: Props) => {
     cities: '',
     stock: 0,
     rating: 0,
+    observaciones: '',
   });
   const [citiesList, setCitiesLis] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -96,6 +97,7 @@ const ModalFormCreateData = ({ toggleCloseModal }: Props) => {
       cities: '',
       stock: 0,
       rating: 0,
+      observaciones: '',
     });
     setCitiesLis([]);
     toggleCloseModal();
@@ -125,6 +127,7 @@ const ModalFormCreateData = ({ toggleCloseModal }: Props) => {
       cities: '',
       stock: 0,
       rating: 0,
+      observaciones: '',
     });
     setCitiesLis([]);
     dispatch({ type: actionsTypes.RESET_STATE });
@@ -292,6 +295,18 @@ const ModalFormCreateData = ({ toggleCloseModal }: Props) => {
             </section>
           </Input>
         </div>
+
+        <Input label='Observaciones'>
+          <textarea
+            name='observaciones'
+            id=''
+            cols={30}
+            rows={5}
+            className='resize-none'
+            onChange={handleChangeForm}
+            value={dataForm.observaciones}
+          ></textarea>
+        </Input>
 
         <Button>{state.isEditMode ? ' Actualizar ' : 'Registrar'}</Button>
       </form>
