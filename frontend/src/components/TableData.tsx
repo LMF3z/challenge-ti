@@ -141,6 +141,9 @@ const TableData = () => {
                   <th className='p-3 text-sm font-semibold tracking-wide text-left'>
                     Fecha
                   </th>
+                  <th className='p-3 text-sm font-semibold tracking-wide text-left'>
+                    cities
+                  </th>
                   {isAuth?.role.toLowerCase() ===
                     UserRole.admin.toLowerCase() && (
                     <th className='p-3 text-sm font-semibold tracking-wide text-left'>
@@ -190,6 +193,15 @@ const TableData = () => {
                     <td className='p-3 text-sm text-gray-700 white-space-nowrap'>
                       {showDateAndHoursFromISOString(data?.createdAt!)}
                     </td>
+                    <td>
+                      {data?.cities &&
+                        (JSON.parse(data?.cities) as string[]).map(
+                          (c: string, index: number) => (
+                            <span key={index}>{c} </span>
+                          )
+                        )}
+                    </td>
+
                     {isAuth?.role.toLowerCase() ===
                       UserRole.admin.toLowerCase() && (
                       <td className='p-3 text-sm text-gray-700 white-space-nowrap flex flex-col gap-2'>

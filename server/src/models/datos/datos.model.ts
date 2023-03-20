@@ -13,6 +13,7 @@ class DatosModel extends Model<DatosI, DatosInputI> {
   category!: string;
   stock!: number;
   rating!: number;
+  cities!: string[];
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
@@ -60,6 +61,10 @@ DatosModel.init(
       allowNull: false,
     },
     rating: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+    },
+    cities: {
       type: DataTypes.DECIMAL,
       allowNull: false,
     },

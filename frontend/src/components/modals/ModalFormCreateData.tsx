@@ -22,15 +22,19 @@ const ModalFormCreateData = ({ toggleCloseModal }: Props) => {
     avatar: '',
     with_delivery: false,
     brand: '',
-    category: 'salud',
+    category: 'gamer',
+    cities: '',
     stock: 0,
     rating: 0,
   });
+  const [citiesList, setCitiesLis] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>();
 
   useEffect(() => {
     if (state.isEditMode) {
       setDataForm(state.dataToEdit);
+      if (state.dataToEdit.cities.length > 0)
+        setCitiesLis(JSON.parse(state.dataToEdit.cities));
     }
   }, [state.isEditMode]);
 
@@ -45,11 +49,27 @@ const ModalFormCreateData = ({ toggleCloseModal }: Props) => {
     });
   };
 
+  const handleMultiSelectCities = ({
+    target: { value },
+  }: ChangeEvent<HTMLInputElement>) => {
+    const cityExistIndex = citiesList.findIndex((city) => city === value);
+
+    if (cityExistIndex >= 0) {
+      const deleted = citiesList.filter((city) => city !== value);
+      setCitiesLis(deleted);
+      return;
+    }
+
+    setCitiesLis([...citiesList, value]);
+  };
+
   const handleSendNewData = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setErrorMessage('');
     dispatch({ type: actionsTypes.TOGGLE_LOADING });
+
+    dataForm.cities = JSON.stringify(citiesList);
 
     if (state.isEditMode) {
       handleEditData();
@@ -73,11 +93,16 @@ const ModalFormCreateData = ({ toggleCloseModal }: Props) => {
       with_delivery: false,
       brand: '',
       category: 'salud',
+      cities: '',
       stock: 0,
       rating: 0,
     });
+    setCitiesLis([]);
     toggleCloseModal();
   };
+
+  const getCityValueIsSelected = (value: string) =>
+    citiesList.some((city) => city === value);
 
   const handleEditData = async () => {
     const response = await updateDatoApi(dataForm);
@@ -97,10 +122,11 @@ const ModalFormCreateData = ({ toggleCloseModal }: Props) => {
       with_delivery: false,
       brand: '',
       category: 'salud',
+      cities: '',
       stock: 0,
       rating: 0,
     });
-
+    setCitiesLis([]);
     dispatch({ type: actionsTypes.RESET_STATE });
     toggleCloseModal();
   };
@@ -108,7 +134,7 @@ const ModalFormCreateData = ({ toggleCloseModal }: Props) => {
   return (
     <>
       <form
-        className='w-full max-h-[90vh] overflow-auto py-5 px-3 flex flex-col items-center gap-3'
+        className='w-full max-h-[90vh] overflow-auto py-5 flex flex-col items-center gap-3'
         autoComplete='off'
         onSubmit={handleSendNewData}
       >
@@ -180,9 +206,7 @@ const ModalFormCreateData = ({ toggleCloseModal }: Props) => {
 
         <Input label='Categoria'>
           <select name='category' defaultValue={dataForm.category}>
-            <option value='gamer' selected>
-              Gamer
-            </option>
+            <option value='gamer'>Gamer</option>
             <option value='computadoras'>Computadoras</option>
             <option value='salud'>Salud</option>
             <option value='Ropa'>Ropa</option>
@@ -212,6 +236,63 @@ const ModalFormCreateData = ({ toggleCloseModal }: Props) => {
             onChange={handleChangeForm}
           />
         </Input>
+
+        <div className='w-full max-w-2xl'>
+          <Input label='Ciudades'>
+            <section className='flex justify-between items-center p-3'>
+              <label
+                className='cursor-pointer hover:text-green-600'
+                htmlFor='city-one'
+              >
+                Ciudad uno
+              </label>
+              <input
+                className='checkbox'
+                type='checkbox'
+                name='citiescheck'
+                id='city-one'
+                value={'city-one'}
+                checked={getCityValueIsSelected('city-one')}
+                onChange={handleMultiSelectCities}
+              />
+            </section>
+            <section className='flex justify-between items-center p-3'>
+              <label
+                className='cursor-pointer hover:text-green-600'
+                htmlFor='city-two'
+              >
+                Ciudad dos
+              </label>
+              <input
+                className='checkbox'
+                type='checkbox'
+                name='citiescheck'
+                id='city-two'
+                value={'city-two'}
+                checked={getCityValueIsSelected('city-two')}
+                onChange={handleMultiSelectCities}
+              />
+            </section>
+            <section className='flex justify-between items-center p-3'>
+              <label
+                className='cursor-pointer hover:text-green-600'
+                htmlFor='city-three'
+              >
+                Ciudad tres
+              </label>
+              <input
+                className='checkbox'
+                type='checkbox'
+                name='citiescheck'
+                id='city-three'
+                value={'city-three'}
+                checked={getCityValueIsSelected('city-three')}
+                onChange={handleMultiSelectCities}
+              />
+            </section>
+          </Input>
+        </div>
+
         <Button>{state.isEditMode ? ' Actualizar ' : 'Registrar'}</Button>
       </form>
       {errorMessage && <p className='text-red-600'>{errorMessage}</p>}

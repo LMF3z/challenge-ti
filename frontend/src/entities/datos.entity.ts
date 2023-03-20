@@ -9,6 +9,7 @@ export interface DatosI {
   category: string;
   stock: number;
   rating: number;
+  cities: string;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
