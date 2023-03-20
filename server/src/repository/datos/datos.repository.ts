@@ -51,11 +51,11 @@ export const getDataList = async (
   rows: DatosI[];
 }> => {
   try {
-    const dataList = await DatosModel.findAndCountAll({
+    const { rows, count } = await DatosModel.findAndCountAll({
       offset,
       limit: limitRequest,
     });
-    return dataList;
+    return { rows, count };
   } catch (error) {
     throw {
       message: 'Error el obtener datos',
